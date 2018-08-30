@@ -52,12 +52,14 @@ public class JMovieController {
 		
 	@GetMapping("randquant/{quant}")
 	public List<Movie> randByQuant(@PathVariable("quant") int quant) {
-		int randInt = (int) Math.ceil(Math.random() * (movieRepo.findAll().size()));
 		ArrayList<Movie> randQuant = new ArrayList<>();
 		if (quant < (movieRepo.findAll().size())) {
 			for (int i = 0; i < quant; i++) {
+				int randInt = (int) Math.ceil(Math.random() * (movieRepo.findAll().size()));
 				randQuant.add(movieRepo.findById(randInt));
 			}
+		} else {
+			return null;
 		}
 		return randQuant;
 	}
