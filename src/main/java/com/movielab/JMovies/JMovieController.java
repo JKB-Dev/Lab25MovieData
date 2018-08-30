@@ -1,13 +1,11 @@
 package com.movielab.JMovies;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.movielab.JMovies.dao.MovieRepository;
 import com.movielab.JMovies.entity.Movie;
 
@@ -37,11 +35,33 @@ public class JMovieController {
 		return movieRepo.findByTitleContaining(keyword);
 	}
 	
-	//TODO: random movie pick
+	@GetMapping("random")
+	public Movie random() {
+		int randInt = (int) Math.ceil(Math.random() * (movieRepo.findAll().size()));
+		Movie random = movieRepo.findById(randInt);
+		return random;
+	}
 	
-	//TODO: random from category
+	@GetMapping("randcat/{category}")
+	public Movie randcat(@PathVariable("category") String cat) {
+		List<Movie> catForRand = movieRepo.findByCategory(cat);
+		int randCatInt = (int) Math.ceil(Math.random() * catForRand.size()-1);
+		Movie randCat = catForRand.get(randCatInt);
+		return randCat;
+	}
 		
-	//TODO: random by specific quantity
-
+	@GetMapping("randquant/{quant}")
+	public List<Movie> randByQuant(@PathVariable("quant") int quant) {
+		int randInt = (int) Math.ceil(Math.random() * (movieRepo.findAll().size()));
+		ArrayList<Movie> randQuant = new ArrayList<>();
+		if (quant < (movieRepo.findAll().size())) {
+			for (int i = 0; i < quant; i++) {
+				randQuant.add(movieRepo.findById(randInt));
+			}
+		}
+		return randQuant;
+	}
+	
 	//TODO: list all categories
+	
 }
