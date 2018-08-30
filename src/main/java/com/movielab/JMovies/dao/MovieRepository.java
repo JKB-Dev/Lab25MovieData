@@ -1,7 +1,10 @@
 package com.movielab.JMovies.dao;
 
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 import com.movielab.JMovies.entity.Movie;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer>{
@@ -16,7 +19,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer>{
 		
 	Movie findById(int id); // use to implement random
 	
-	//TODO: list all categories
-	//createNativeQuery("select distinct category from movies");
+	@Query ("select distinct category from Movie") // this is HQL not SQL
+	List<String> findDistinctCategories();
 	
 }

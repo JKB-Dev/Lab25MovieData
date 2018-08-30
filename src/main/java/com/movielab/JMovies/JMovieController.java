@@ -20,6 +20,16 @@ public class JMovieController {
 		return movieRepo.findAll();
 	}
 	
+	//FIXME:
+	@GetMapping("listtitle")
+	public List<String> allTitles() {
+		ArrayList<String>allTitles = new ArrayList<>();
+		for (int i = 0; i < movieRepo.findAll().size(); i++) {
+			allTitles.add(movieRepo.findById(i).getTitle());
+		}
+		return allTitles;
+	}
+	
 	@GetMapping("bycategory/{category}")
 	public List<Movie> searchByCat(@PathVariable("category") String cat){
 		return movieRepo.findByCategory(cat);
@@ -64,6 +74,9 @@ public class JMovieController {
 		return randQuant;
 	}
 	
-	//TODO: list all categories
+	@GetMapping("listcats")
+	public List<String> allCats() {
+		return movieRepo.findDistinctCategories();
+	}
 	
 }
